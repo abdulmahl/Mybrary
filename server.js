@@ -7,12 +7,14 @@ const authorRouter = require("./routes/authors");
 const mongoose = require("mongoose");
 require("dotenv/config");
 const uri = process.env.MONGO_URI;
+const bodyParser = require("body-parser");
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout");
 app.use(layouts);
 app.use(express.static("public"));
+app.use(express.urlencoded({ limit: "10mb", extended: false }));
 
 mongoose.connect(uri);
 
