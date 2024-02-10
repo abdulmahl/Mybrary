@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 const layouts = require("express-ejs-layouts");
+const port = process.env.PORT || 3000;
 
-const router = require("./routes/index");
-const authorRouter = require("./routes/authors");
+const indexRouter = require("./routes/index");
+const authorRouter = require("./routes/author");
+const bookRouter = require("./routes/books");
 const mongoose = require("mongoose");
 require("dotenv/config");
 const uri = process.env.MONGO_URI;
@@ -18,10 +20,9 @@ app.use(express.urlencoded({ limit: "10mb", extended: false }));
 
 mongoose.connect(uri);
 
-app.use("/", router);
+app.use("/", indexRouter);
 app.use("/authors", authorRouter);
-
-const port = process.env.PORT || 3000;
+app.use("/books", bookRouter);
 
 app.listen(port, () => {
   const db = mongoose.connection;
